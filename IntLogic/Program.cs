@@ -35,7 +35,7 @@ using System.Diagnostics;
 
 double[] doubles =
 {
-    0.0, 0.0, 1, 0.0, 0.0
+    0.01, 0.0, 0.98, 0.0, 0.01
 };
 
 

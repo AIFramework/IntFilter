@@ -1,4 +1,6 @@
-﻿namespace IntegerCalculations.Logic
+﻿//Код частично взят отсюда https://github.com/ar1st0crat/NWaves 
+
+namespace IntegerCalculations.Logic
 {
     /// <summary>
     /// 
