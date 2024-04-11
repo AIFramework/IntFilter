@@ -6,8 +6,8 @@ namespace IntegerCalculations.Logic
     public struct FixedPoint
     {
         int _value;
-        public const short Denum = 1024; // 10 бит
-        public const short BitsDenum = 10;
+        public const int Denum = 1024; // 10 бит
+        public const int BitsDenum = 10;
 
         public FixedPoint(int value = 0) { _value = value; }
 
