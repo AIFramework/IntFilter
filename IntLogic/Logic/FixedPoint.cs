@@ -6,8 +6,8 @@ namespace IntegerCalculations.Logic
     public struct FixedPoint
     {
         int _value;
-        public const int Denum = 1024; // 10 бит
-        public const int BitsDenum = 10;
+        public const int Denum = 65536; // 16 бит
+        public const int BitsDenum = 16;
 
         public FixedPoint(int value = 0) { _value = value; }
 
@@ -33,9 +33,7 @@ namespace IntegerCalculations.Logic
 
         public static FixedPoint operator *(FixedPoint fp1, FixedPoint fp2)
         {
-            int temp = fp1._value * fp2._value;
-            // Смещение бит после умножения для корректировки
-            return new FixedPoint(temp >> BitsDenum);
+            return new FixedPoint(Mul(fp1._value, fp2._value));
         }
 
         public static FixedPoint operator /(FixedPoint fp1, FixedPoint fp2)
@@ -45,7 +43,22 @@ namespace IntegerCalculations.Logic
             return new FixedPoint(temp / fp2._value);
         }
 
+        /// <summary>
+        /// Целочисленное умножение
+        /// </summary>
+        /// <param name="fp1"></param>
+        /// <param name="fp2"></param>
+        /// <returns></returns>
+        public static int Mul(int fp1, int fp2) 
+        {
+            int i1 = fp1 >> BitsDenum, i2 = fp2 >> BitsDenum; // Верхние биты
+            int f1 = fp1 & 0x0000ffff, f2 = fp2 & 0x0000ffff; // Нижние биты
 
+            int i = (i1*i2) << BitsDenum;
+            int f = (f1*f2) >> BitsDenum;
+            int fi = (i1 * f2) + (i2 * f1);
+            return i + f + fi;
+        }
 
         public static int[] ToFixedPointAsInt(IEnumerable<double> doubles)
         {
@@ -53,7 +66,7 @@ namespace IntegerCalculations.Logic
             int[] sInt = new int[s.Length];
 
             for (int i = 0; i < s.Length; i++)
-                sInt[i] = (int)(s[i] * Denum);
+                sInt[i] = (int)(s[i] * Denum+0.5);
 
             return sInt;
         }
@@ -69,5 +82,6 @@ namespace IntegerCalculations.Logic
 
             return sD;
         }
+
     }
 }

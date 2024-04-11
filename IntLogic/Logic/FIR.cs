@@ -9,7 +9,7 @@ namespace IntegerCalculations.Logic
     [Serializable]
     public class FIR
     {
-        public const short BitsDenum = 10;
+        public const short BitsDenum = 16;
         public int[] Buffer { get; set; }
 
         /// <summary>
@@ -55,11 +55,11 @@ namespace IntegerCalculations.Logic
             int output = 0;
 
             for (int i = 0, j = _kernelSize - _delayLineOffset; i < _kernelSize; i++, j++)  
-                output += _delayLine[i] * Buffer[j];
+                output += FixedPoint.Mul(_delayLine[i], Buffer[j]);
 
             if (--_delayLineOffset < 0) _delayLineOffset = _kernelSize - 1;
 
-            return output >> BitsDenum;
+            return output;
         }
 
 
